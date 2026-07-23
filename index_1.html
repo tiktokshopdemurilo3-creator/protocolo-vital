@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kit de Protocolo Personalizado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1F2421;
+    --paper:#EDE8DC;
+    --paper-2:#E2DCCC;
+    --sage:#4B6358;
+    --sage-deep:#334740;
+    --coral:#E2542D;
+    --gold:#B8912F;
+    --line: rgba(31,36,33,0.14);
+    --line-strong: rgba(31,36,33,0.28);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    font-size:12px;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;}
+
+  /* NAV */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(237,232,220,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 0;
+  }
+  .logo{
+    font-family:'Fraunces', serif; font-weight:700; font-size:19px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{width:8px;height:8px;border-radius:50%;background:var(--coral);display:inline-block;}
+  .nav-cta{
+    background:var(--ink); color:var(--paper);
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:0.04em;
+    padding:11px 20px; border-radius:2px; text-decoration:none;
+    border:1px solid var(--ink);
+    transition:background .2s ease, color .2s ease;
+  }
+  .nav-cta:hover{background:transparent; color:var(--ink);}
+
+  /* HERO */
+  .hero{
+    padding:88px 0 72px;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    color:var(--sage-deep);
+    margin-bottom:22px;
+  }
+  .eyebrow::before{content:"";width:22px;height:1px;background:var(--coral);}
+  .hero h1{
+    font-size:clamp(36px, 5vw, 56px);
+    line-height:1.04;
+    max-width:16ch;
+  }
+  .hero h1 em{
+    font-style:italic; color:var(--sage-deep);
+  }
+  .hero p.lede{
+    margin-top:22px; font-size:18px; line-height:1.55;
+    max-width:46ch; color:rgba(31,36,33,0.82);
+  }
+  .hero-ctas{margin-top:32px; display:flex; align-items:center; gap:18px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--coral); color:#fff;
+    font-family:'IBM Plex Mono',monospace; font-size:13px; letter-spacing:0.04em;
+    padding:15px 26px; border-radius:2px; text-decoration:none;
+    display:inline-block; border:1px solid var(--coral);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 8px 20px rgba(226,84,45,0.28);}
+  .disclaimer-note{
+    font-size:12.5px; color:rgba(31,36,33,0.58); max-width:30ch; line-height:1.5;
+  }
+
+  /* SIGNATURE TRACKER VISUAL */
+  .tracker-card{
+    background:var(--ink); color:var(--paper);
+    border-radius:4px; padding:26px 24px 22px;
+    position:relative; overflow:hidden;
+  }
+  .tracker-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:18px;}
+  .tracker-head .mono{color:rgba(237,232,220,0.55);}
+  .tracker-head .week{font-family:'Fraunces',serif; font-size:20px;}
+  .tracker-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:16px;}
+  .tracker-day{
+    aspect-ratio:1; border-radius:2px; background:rgba(237,232,220,0.08);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:rgba(237,232,220,0.4);
+    border:1px solid rgba(237,232,220,0.12);
+  }
+  .tracker-day.done{background:var(--sage); color:#fff; border-color:var(--sage);}
+  .tracker-day.adj{background:var(--coral); color:#fff; border-color:var(--coral);}
+  .tracker-note{
+    font-size:13px; line-height:1.6; color:rgba(237,232,220,0.72);
+    border-top:1px solid rgba(237,232,220,0.14); padding-top:14px;
+  }
+  .tracker-note b{color:var(--paper);}
+
+  /* SECTION GENERIC */
+  section{padding:76px 0;}
+  .section-head{max-width:640px; margin-bottom:48px;}
+  .section-head h2{font-size:clamp(28px,3.4vw,38px); line-height:1.1;}
+  .section-head p{margin-top:14px; font-size:16px; line-height:1.6; color:rgba(31,36,33,0.75);}
+
+  /* PROBLEM */
+  .problem-list{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  .problem-item{background:var(--paper); padding:28px 24px;}
+  .problem-item .mono{color:var(--coral); display:block; margin-bottom:14px;}
+  .problem-item p{margin:0; font-size:15px; line-height:1.55;}
+
+  /* MODULES */
+  .modules{border-top:1px solid var(--line-strong);}
+  .module{
+    display:grid; grid-template-columns:100px 1fr;
+    gap:32px; padding:34px 0; border-bottom:1px solid var(--line);
+  }
+  .module .num{
+    font-family:'Fraunces',serif; font-size:44px; color:var(--paper-2);
+    -webkit-text-stroke:1px var(--line-strong);
+    line-height:1;
+  }
+  .module h3{font-size:22px; margin-bottom:10px;}
+  .module p{font-size:15.5px; line-height:1.6; color:rgba(31,36,33,0.78); max-width:56ch;}
+  .module .tag{
+    display:inline-block; margin-top:12px; font-size:11.5px;
+    font-family:'IBM Plex Mono',monospace; letter-spacing:0.05em;
+    color:var(--sage-deep); background:rgba(75,99,88,0.12);
+    padding:5px 10px; border-radius:2px;
+  }
+
+  /* DIFERENCIAIS */
+  .diff-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  .diff-card{background:var(--paper); padding:26px 22px; min-height:170px; display:flex; flex-direction:column; justify-content:space-between;}
+  .diff-card .mark{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--coral); display:flex;align-items:center;justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--coral);}
+  .diff-card h4{font-family:'Fraunces',serif; font-size:17px; font-weight:600; margin-top:16px;}
+  .diff-card p{font-size:13.5px; line-height:1.5; color:rgba(31,36,33,0.72); margin-top:8px;}
+
+  /* PROVA SOCIAL */
+  .testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .testi-card{
+    border:1px dashed var(--line-strong); border-radius:4px; padding:24px;
+    background:rgba(237,232,220,0.4);
+  }
+  .testi-card .mono{color:var(--sage-deep);}
+  .testi-card p{font-size:14.5px; line-height:1.6; margin:14px 0 0; color:rgba(31,36,33,0.7); font-style:italic;}
+  .testi-card .who{margin-top:14px; font-size:13px; color:rgba(31,36,33,0.55);}
+
+  /* PRICING */
+  .price-box{
+    background:var(--ink); color:var(--paper);
+    border-radius:6px; padding:48px; display:grid; grid-template-columns:1.2fr 1fr; gap:44px; align-items:center;
+  }
+  .price-box .mono{color:var(--coral);}
+  .price-box h2{color:var(--paper); font-size:30px; margin-top:12px;}
+  .price-box ul{list-style:none; padding:0; margin:22px 0 0;}
+  .price-box li{padding:9px 0; border-top:1px solid rgba(237,232,220,0.14); font-size:14.5px; display:flex; gap:10px;}
+  .price-box li::before{content:"—"; color:var(--sage);}
+  .price-panel{
+    background:rgba(237,232,220,0.06); border:1px solid rgba(237,232,220,0.18);
+    border-radius:4px; padding:30px; text-align:center;
+  }
+  .price-old{font-family:'IBM Plex Mono',monospace; font-size:14px; color:rgba(237,232,220,0.45); text-decoration:line-through;}
+  .price-new{font-family:'Fraunces',serif; font-size:46px; margin:6px 0 4px;}
+  .price-panel .btn-primary{width:100%; text-align:center; margin-top:18px;}
+  .guarantee{font-size:12px; color:rgba(237,232,220,0.55); margin-top:14px; line-height:1.5;}
+
+  /* FAQ */
+  .faq-item{border-bottom:1px solid var(--line); padding:22px 0;}
+  .faq-item summary{
+    cursor:pointer; font-family:'Fraunces',serif; font-size:17px; font-weight:600;
+    list-style:none; display:flex; justify-content:space-between; align-items:center;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{content:"+"; font-family:'IBM Plex Mono',monospace; font-size:20px; color:var(--coral);}
+  .faq-item[open] summary::after{content:"–";}
+  .faq-item p{font-size:14.5px; line-height:1.65; color:rgba(31,36,33,0.75); margin-top:14px; max-width:70ch;}
+
+  /* FOOTER / LEGAL */
+  footer{background:var(--sage-deep); color:rgba(237,232,220,0.88); padding:52px 0 30px;}
+  .legal-box{
+    background:rgba(0,0,0,0.16); border-radius:4px; padding:22px 24px; margin-bottom:32px;
+    font-size:12.5px; line-height:1.7; color:rgba(237,232,220,0.75);
+  }
+  .legal-box b{color:var(--paper);}
+  .footer-links{display:flex; gap:22px; flex-wrap:wrap; font-family:'IBM Plex Mono',monospace; font-size:12px;}
+  .footer-links a{text-decoration:underline; color:rgba(237,232,220,0.7);}
+  .footer-bottom{margin-top:26px; font-size:12px; color:rgba(237,232,220,0.45); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+
+  /* reveal */
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{transition:none; opacity:1; transform:none;}
+  }
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr; padding-top:56px;}
+    .problem-list{grid-template-columns:1fr;}
+    .diff-grid{grid-template-columns:1fr 1fr;}
+    .testi-grid{grid-template-columns:1fr;}
+    .price-box{grid-template-columns:1fr; padding:32px;}
+    .module{grid-template-columns:60px 1fr;}
+    .module .num{font-size:32px;}
+  }
+  @media (max-width:520px){
+    .diff-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="logo"><span class="dot"></span>Protocolo&nbsp;Vital</div>
+      <a href="#preco" class="nav-cta">Quero meu kit</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <div>
+    <div class="eyebrow mono">Kit de Protocolo Personalizado</div>
+    <h1>Um plano de treino e alimentação que <em>se ajusta</em> a você — não o contrário.</h1>
+    <p class="lede">Você responde algumas perguntas sobre seu objetivo e sua rotina, e o app monta na hora seu treino, seu cardio e sua estrutura de alimentação — com IA pra estimar calorias por foto e sugerir receitas com o que você já tem em casa. Tudo editável, do seu jeito.</p>
+    <div class="hero-ctas">
+      <a href="#preco" class="btn-primary">Quero meu protocolo →</a>
+      <span class="disclaimer-note">Conteúdo educacional. Não substitui acompanhamento médico, nutricional ou de educador físico.</span>
+    </div>
+  </div>
+
+  <div class="tracker-card reveal">
+    <div class="tracker-head">
+      <span class="mono">Semana 03</span>
+      <span class="week">Protocolo ajustado</span>
+    </div>
+    <div class="tracker-grid">
+      <div class="tracker-day done">S</div>
+      <div class="tracker-day done">T</div>
+      <div class="tracker-day adj">Q</div>
+      <div class="tracker-day done">Q</div>
+      <div class="tracker-day">S</div>
+      <div class="tracker-day done">S</div>
+      <div class="tracker-day">D</div>
+    </div>
+    <div class="tracker-note">
+      <b>Ajuste da IA:</b> constância nos 4 primeiros dias. Quarta foi realocada por relato de cansaço — protocolo redistribuído, sem perder o ritmo da semana.
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="section-head reveal">
+    <div class="eyebrow mono">O problema real</div>
+    <h2>Não falta motivação. Falta um plano que aguenta a vida real.</h2>
+  </div>
+  <div class="problem-list reveal">
+    <div class="problem-item">
+      <span class="mono">01</span>
+      <p>Planilha genérica que não considera sua rotina, seu sono, sua semana corrida.</p>
+    </div>
+    <div class="problem-item">
+      <span class="mono">02</span>
+      <p>Treino que ignora o dia ruim — e faz você desistir na primeira falha.</p>
+    </div>
+    <div class="problem-item">
+      <span class="mono">03</span>
+      <p>Curso longo que ensina teoria, mas não entrega nada pronto para aplicar hoje.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap modules">
+  <div class="section-head reveal">
+    <div class="eyebrow mono">O que vem no kit</div>
+    <h2>Três peças, uma lógica só: implementar rápido, ajustar sempre.</h2>
+  </div>
+
+  <div class="module reveal">
+    <span class="num">01</span>
+    <div>
+      <h3>Quiz que gera seu protocolo na hora</h3>
+      <p>Responda perguntas sobre objetivo, rotina, restrições e nível de experiência. O app monta automaticamente seu treino, seu cardio e a estrutura das suas refeições — nada de plano genérico.</p>
+      <span class="tag">Geração automática · leva minutos</span>
+    </div>
+  </div>
+
+  <div class="module reveal">
+    <span class="num">02</span>
+    <div>
+      <h3>Tudo editável do seu jeito</h3>
+      <p>Não gostou de um exercício ou de uma refeição sugerida? Edita direto na tela. Seu protocolo fica guardado do jeito que você ajustou, não do jeito que o app gerou.</p>
+      <span class="tag">Edição livre · fica salvo</span>
+    </div>
+  </div>
+
+  <div class="module reveal">
+    <span class="num">03</span>
+    <div>
+      <h3>Calorias e receitas com IA</h3>
+      <p>Tire foto do prato ou da tabela nutricional da embalagem e receba uma estimativa de calorias e macros. Ou conte o que tem na geladeira e receba sugestões de receita prontas pra usar.</p>
+      <span class="tag">Foto do prato · foto do rótulo · busca de receita</span>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="section-head reveal">
+    <div class="eyebrow mono">Por que esse kit é diferente</div>
+    <h2>Feito para durar além da primeira semana de motivação.</h2>
+  </div>
+  <div class="diff-grid reveal">
+    <div class="diff-card">
+      <span class="mark">1</span>
+      <div>
+        <h4>Ajuste, não abandono</h4>
+        <p>Quando a semana sai do previsto, o protocolo se adapta — você não perde o progresso por um dia ruim.</p>
+      </div>
+    </div>
+    <div class="diff-card">
+      <span class="mark">2</span>
+      <div>
+        <h4>Sem promessas vazias</h4>
+        <p>Não prometemos números mágicos. O foco é constância real, no seu ritmo, com orientação clara.</p>
+      </div>
+    </div>
+    <div class="diff-card">
+      <span class="mark">3</span>
+      <div>
+        <h4>Pronto para usar hoje</h4>
+        <p>Responde o quiz e já sai com o protocolo completo na tela — sem esperar, sem baixar nada.</p>
+      </div>
+    </div>
+    <div class="diff-card">
+      <span class="mark">4</span>
+      <div>
+        <h4>Atualizações inclusas</h4>
+        <p>Melhorias no app e nas funções de IA chegam sem custo adicional.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="section-head reveal">
+    <div class="eyebrow mono">Relatos</div>
+    <h2>Espaço para depoimentos reais</h2>
+    <p>Substitua os cartões abaixo por avaliações verdadeiras de quem já usou o kit, com autorização da pessoa para publicar o nome e a foto. Se algum depoimento citar um resultado específico, mantenha por perto o aviso de que resultados individuais variam — a lei trata a fala do cliente como parte da sua publicidade.</p>
+  </div>
+  <div class="testi-grid reveal">
+    <div class="testi-card">
+      <span class="mono">Depoimento 01</span>
+      <p>"[Adicione aqui a fala real de um cliente, com autorização para uso]"</p>
+      <div class="who">— Nome, cidade (com autorização)</div>
+    </div>
+    <div class="testi-card">
+      <span class="mono">Depoimento 02</span>
+      <p>"[Adicione aqui a fala real de um cliente, com autorização para uso]"</p>
+      <div class="who">— Nome, cidade (com autorização)</div>
+    </div>
+    <div class="testi-card">
+      <span class="mono">Depoimento 03</span>
+      <p>"[Adicione aqui a fala real de um cliente, com autorização para uso]"</p>
+      <div class="who">— Nome, cidade (com autorização)</div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="preco">
+  <div class="price-box reveal">
+    <div>
+      <span class="mono">Oferta de lançamento</span>
+      <h2>Kit de Protocolo Personalizado</h2>
+      <ul>
+        <li>Quiz de personalização e protocolo gerado na hora</li>
+        <li>Treino, cardio e alimentação editáveis</li>
+        <li>Calculadora de calorias por foto (prato e rótulo)</li>
+        <li>Busca de receitas com IA a partir do que você tem em casa</li>
+        <li>Diário alimentar com metas personalizadas</li>
+        <li>Acesso em até 24 horas após a compra</li>
+      </ul>
+    </div>
+    <div class="price-panel">
+      <div class="price-new">R$ 28,76</div>
+      <span class="mono" style="color:rgba(237,232,220,0.6)">pagamento único · oferta de lançamento</span>
+      <a href="#" class="btn-primary">Quero meu protocolo →</a>
+      <p class="guarantee">Garantia de 7 dias corridos para arrependimento, conforme o Art. 49 do Código de Defesa do Consumidor. Se não for para você, é só pedir reembolso.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="section-head reveal">
+    <div class="eyebrow mono">Perguntas frequentes</div>
+    <h2>Antes de você decidir</h2>
+  </div>
+  <div class="reveal">
+    <details class="faq-item" open>
+      <summary>Isso substitui acompanhamento médico ou nutricional?</summary>
+      <p>Não. O kit tem caráter educacional e serve como apoio de organização e constância. Recomendamos consultar um médico antes de iniciar qualquer protocolo de exercícios ou mudança alimentar, especialmente se você tiver alguma condição de saúde pré-existente.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Funciona para qualquer idade ou condição física?</summary>
+      <p>O conteúdo é geral e pensado para adaptação individual. Cada pessoa deve avaliar, com apoio profissional quando necessário, se o ritmo e o tipo de atividade sugeridos são adequados ao seu caso.</p>
+    </details>
+    <details class="faq-item">
+      <summary>Como funciona a inteligência artificial no app?</summary>
+      <p>Ela é usada em dois momentos: pra estimar calorias e macros a partir de uma foto do seu prato ou do rótulo nutricional da embalagem, e pra sugerir receitas a partir dos ingredientes que você tem em casa. Ela não emite diagnóstico nem prescrição — as estimativas são aproximadas.</p>
+    </details>
+    <details class="faq-item">
+      <summary>E se eu não gostar?</summary>
+      <p>Você tem 7 dias corridos após a compra para solicitar reembolso integral, sem necessidade de justificativa, conforme previsto em lei para compras feitas fora de estabelecimento físico.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="legal-box">
+      <b>Aviso legal:</b> Este produto possui caráter exclusivamente educacional e informativo. Não constitui consulta, diagnóstico, prescrição médica, nutricional ou de educação física. O treino, o cardio, a estrutura de alimentação, as estimativas de calorias e as sugestões de receita são gerados automaticamente por inteligência artificial com base nas informações fornecidas pelo usuário, e podem conter imprecisões. Antes de iniciar qualquer protocolo de exercícios ou alimentação, consulte um profissional de saúde habilitado — especialmente em caso de gestação, condições crônicas, lesões ou uso de medicamentos. Resultados variam de pessoa para pessoa e dependem de fatores individuais; nenhum resultado específico é prometido ou garantido. As imagens e depoimentos apresentados, quando reais, são publicados com autorização expressa das pessoas retratadas.
+    </div>
+    <div class="footer-links">
+      <a href="termos-de-uso.html">Termos de Uso</a>
+      <a href="politica-de-privacidade.html">Política de Privacidade</a>
+      <a href="politica-de-reembolso.html">Política de Reembolso</a>
+      <a href="mailto:sup.dev.protocolovital@gmail.com">Fale conosco</a>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Protocolo Vital. Todos os direitos reservados.</span>
+      <span class="mono">Responsável: Murilo Lazaroto</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
